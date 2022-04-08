@@ -39,7 +39,7 @@ else {
 		$rip = urldecode($url);
 		$song_title = substr($rip, strrpos($rip, '/') + 1);
 		$rip = $game_dir . '/' . $song_title;
-		exec("wget $url -O '$rip'");
+		exec("wget $url -O '$rip' --no-check-certificate");
 		$song_title = substr($song_title, 3, -4);
 		exec("id3v2 -a '$game_title' -t '$song_title' '$rip'");
    }
