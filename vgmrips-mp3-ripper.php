@@ -18,7 +18,7 @@ $game_title = substr($matches[0][0], 4, -3);
 $game_dir = str_replace(array('\\','/',':','*','?','"','<','>','|'), '_', $game_title);
 echo "Game Title : $game_title\n\n";
 
-$mp3_file_pattern = '/((https?:\/\/)?(\w+?\.)+?([a-zA-Z0-9-_\%]+?\/)+[a-zA-Z0-9:-_\%]+?.(mp3|ogg))/im';
+$mp3_file_pattern = '/((https?:\/\/)?(\w+?\.)+?([a-zA-Z0-9-_\%\/]+?).(mp3|ogg))/im';
 
 preg_match_all($mp3_file_pattern, $page, $matches);
 
