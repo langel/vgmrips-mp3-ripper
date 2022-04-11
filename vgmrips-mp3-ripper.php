@@ -31,17 +31,32 @@ if ($game_title == '' || $mp3_file_count == 0) {
 }
 else {
    echo "Beginning Rip...\n";
+	$temp = 'temp.mp3';
    mkdir($game_dir);
    echo "./$game_title directory created\n";
    foreach ($matches[0] as $url) {
       echo $url."\n";
       echo urldecode($url)."\n";
 		$rip = urldecode($url);
+		$track_id = substr($rip, 0, 2);
 		$song_title = substr($rip, strrpos($rip, '/') + 1);
 		$rip = $game_dir . '/' . $song_title;
-		exec("wget $url -O '$rip' --no-check-certificate");
 		$song_title = substr($song_title, 3, -4);
-		exec("id3v2 -a '$game_title' -t '$song_title' '$rip'");
+		exec("wget $url -O $temp --no-check-certificate");
+		$output = null;
+		exec("ffmpeg -i $temp -af \"volumedetect\" -f null /dev/null 2>&1", $output);
+		$db = '0.0db';
+		foreach ($output as $line) {
+			if (strpos($line, "max_volume") !== FALSE) {
+				echo $line."\n";
+				$strip = [" ", ":", "-"];
+				$db = str_replace($strip, "", substr($line, -8));
+			}
+		}
+		echo "$rip\n$db\n";
+//		die();
+//		exec("id3v2 -a '$game_title' -t '$song_title' '$rip'");
+		exec("ffmpeg -i $temp -af \"volume=$db\" \"$rip\"");
    }
 }
 
