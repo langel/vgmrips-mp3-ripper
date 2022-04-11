@@ -18,7 +18,7 @@ $game_title = substr($matches[0][0], 4, -3);
 $game_dir = str_replace(array('\\','/',':','*','?','"','<','>','|'), '_', $game_title);
 echo "Game Title : $game_title\n\n";
 
-$mp3_file_pattern = '/((https?:\/\/)?(\w+?\.)+?([a-zA-Z0-9-_\%\/]+?).(mp3|ogg))/im';
+$mp3_file_pattern = '/((https?:\/\/)?(\w+?\.)+?([a-zA-Z0-9-_~\%\.\/]+?).(mp3|ogg))/im';
 
 preg_match_all($mp3_file_pattern, $page, $matches);
 
@@ -38,8 +38,8 @@ else {
       echo $url."\n";
       echo urldecode($url)."\n";
 		$rip = urldecode($url);
-		$track_id = substr($rip, 0, 2);
 		$song_title = substr($rip, strrpos($rip, '/') + 1);
+		$track_id = substr($song_title, 0, 2);
 		$rip = $game_dir . '/' . $song_title;
 		$song_title = substr($song_title, 3, -4);
 		exec("wget $url -O $temp --no-check-certificate");
@@ -54,10 +54,9 @@ else {
 			}
 		}
 		echo "$rip\n$db\n";
-//		die();
-//		exec("id3v2 -a '$game_title' -t '$song_title' '$rip'");
-		exec("ffmpeg -i $temp -af \"volume=$db\" \"$rip\"");
+		exec("ffmpeg -i $temp -af \"volume=$db\" -metadata artist=\"$game_title\" -metadata title=\"$song_title\" -metadata track=\"$track_id\" \"$rip\"");
    }
+	unlink($temp);
 }
 
 
