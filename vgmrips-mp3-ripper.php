@@ -14,11 +14,11 @@ $matches = [];
 
 preg_match_all('|<\s*h1(?:.*)>(.*)</\s*h|Ui', $page, $matches);
 
-$game_title = substr($matches[0][0], 4, -3);
+$game_title = htmlspecialchars_decode(substr($matches[0][0], 4, -3));
 $game_dir = str_replace(array('\\','/',':','*','?','"','<','>','|'), '_', $game_title);
 echo "Game Title : $game_title\n\n";
 
-$mp3_file_pattern = '/((https?:\/\/)?(\w+?\.)+?([a-zA-Z0-9-_~\%\.\/]+?).(mp3|ogg))/im';
+$mp3_file_pattern = '/((https?:\/\/)?(\w+?\.)+?([a-zA-Z0-9-_~\%\.\/]+?)\.(mp3|ogg))/im';
 
 preg_match_all($mp3_file_pattern, $page, $matches);
 
@@ -30,7 +30,8 @@ if ($game_title == '' || $mp3_file_count == 0) {
    echo "RIP FAILED!!! :U\n\n";
 }
 else {
-   echo "Beginning Rip...\n";
+	foreach($matches[0] as $url) { echo "$url\n"; }
+	echo "\n\nBeginning Rip...\n";
 	$temp = 'temp.mp3';
    mkdir($game_dir);
    echo "./$game_title directory created\n";
