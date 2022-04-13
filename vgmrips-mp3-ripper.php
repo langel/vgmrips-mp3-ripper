@@ -27,17 +27,17 @@ $mp3_file_count = count($matches[0]);
 echo $mp3_file_count . " mp3 files discovered . . .\n\n";
 
 if ($game_title == '' || $mp3_file_count == 0) {
-   echo "RIP FAILED!!! :U\n\n";
+	echo "RIP FAILED!!! :U\n\n";
 }
 else {
 	foreach($matches[0] as $url) { echo "$url\n"; }
-	echo "\n\nBeginning Rip...\n";
-	$temp = 'temp.mp3';
-   mkdir($game_dir);
-   echo "./$game_title directory created\n";
-   foreach ($matches[0] as $url) {
-      echo $url."\n";
-      echo urldecode($url)."\n";
+		echo "\n\nBeginning Rip...\n";
+		$temp = 'temp.mp3';
+		mkdir($game_dir);
+		echo "./$game_title directory created\n";
+		foreach ($matches[0] as $url) {
+		echo $url."\n";
+		echo urldecode($url)."\n";
 		$rip = urldecode($url);
 		$song_title = substr($rip, strrpos($rip, '/') + 1);
 		$track_id = substr($song_title, 0, 2);
@@ -56,7 +56,7 @@ else {
 		}
 		echo "$rip\n$db\n";
 		exec("ffmpeg -i $temp -af \"volume=$db\" -metadata artist=\"$game_title\" -metadata title=\"$song_title\" -metadata track=\"$track_id\" \"$rip\"");
-   }
+	}
 	unlink($temp);
 }
 
