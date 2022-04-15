@@ -43,6 +43,7 @@ else {
 		$track_id = substr($song_title, 0, 2);
 		$rip = $game_dir . '/' . $song_title;
 		$song_title = substr($song_title, 3, -4);
+		if (substr($song_title, 0, 2) == '- ') $song_title = substr($song_title, 2);
 		exec("wget $url -O $temp --no-check-certificate");
 		$output = null;
 		exec("ffmpeg -i $temp -af \"volumedetect\" -f null /dev/null 2>&1", $output);
