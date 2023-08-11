@@ -9,3 +9,7 @@ I wanted to listen to video game music on shuffle in winamp while I [stream](htt
 
 ## Requirements
 php & ffmpeg
+pip3 & ffmpeg-normalize
+
+## TO DO
+better system renaming for dir name
