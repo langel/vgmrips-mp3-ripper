@@ -58,7 +58,7 @@ else {
 		if (substr($song_title, 0, 2) == '- ') $song_title = substr($song_title, 2);
 		$rip = $game_dir . '/' . str_pad($track_id, 2, "0", STR_PAD_LEFT) . ' ' . $song_title . '.mp3';
 		echo $rip."\n";
-		exec("wget $url -O \"$temp\" --no-check-certificate");
+		exec("wget $url -O \"$temp\" --no-check-certificate --header='User-Agent: mp3rips-mp3-ripper'");
 		exec("ffmpeg -i \"$temp\" -metadata artist=\"$game_title\" -metadata title=\"$song_title\" -metadata track=\"$track_id\" \"$rip\"");
 	}
 	unlink($temp);
